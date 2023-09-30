@@ -16,7 +16,7 @@ pip install -U --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/
 
 #### Inference
 
-1. Download the model from huggingface, and place it within ./models/
+1. Download the model checkpoint from [huggingface](https://huggingface.co/SerCe/fontogen), and place it inside ./models/
 2. Start the server
 
 ```bash
