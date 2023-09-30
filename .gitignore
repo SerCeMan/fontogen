@@ -1,0 +1,9 @@
+.idea
+__pycache__
+data/
+lightning_logs
+.DS_store
+tests/converted.*
+wandb
+training
+log.txt

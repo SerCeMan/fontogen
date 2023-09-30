@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fonttools = "4.42.0"
+matplotlib = "3.7.2"
+torch = "2.0.1"
+xformers = "0.0.21"
+numpy = "1.25.2"
+transformers = "4.31.0"
+lightning = "2.0.6"
+wandb = "0.15.8"
+fs = "2.4.16"
+gradio = "3.42.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
+python_full_version = "3.10.11"
