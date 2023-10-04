@@ -16,12 +16,4 @@ pip install -U --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/
 
 #### Inference
 
-1. Download the model checkpoint from [huggingface](https://huggingface.co/SerCe/fontogen), and place it inside ./models/
-2. Start the server
-
-```bash
-pipenv shell
-python server.py
-```
-
-3. Select the model in the dropdown, and click "Generate"
+The model needs to be re-trained on a large dataset of OFL fonts. If anyone would like to contribute and re-train the model, please reach out and I'll be happy to help you set up the environment.
