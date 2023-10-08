@@ -7,3 +7,4 @@ tests/converted.*
 wandb
 training
 log.txt
+*.ds

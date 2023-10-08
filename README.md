@@ -14,6 +14,18 @@ pipenv shell
 pip install -U --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/Triton-Nightly/pypi/simple/ triton-nightly==2.1.0.dev20230801015042 --no-deps
 ```
 
-#### Inference
+### Training
+
+Please only train the model on open source fonts.
+`./train_example.sh` contains an example of the training process.
+
+```bash
+# the input fonts
+ls ./example/dataset/
+# prepare the dataset and start training
+./train_example.sh
+```
+
+### Inference
 
 The model needs to be re-trained on a large dataset of OFL fonts. If anyone would like to contribute and re-train the model, please reach out and I'll be happy to help you set up the environment.

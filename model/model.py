@@ -195,8 +195,6 @@ class FontogenTransformer(nn.Module):
         self.d_model = d_model
         self.seq_len = max_text_tokens + max_font_tokens
         self.max_text_len = max_text_tokens
-        # noinspection PyUnresolvedReferences
-        from model.attention import GlobalLocalAttention
         # let's try to match the text size
         block_size = 16
         assert block_size == max_text_tokens

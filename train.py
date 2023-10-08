@@ -1,26 +1,36 @@
+import argparse
+import string
+
 import lightning.pytorch as pl
 import torch
 from lightning.pytorch.callbacks import ModelCheckpoint, LearningRateMonitor
 from lightning.pytorch.loggers import WandbLogger
 
-from config import fontogen_config
+from config import fontogen_config, FontogenConfig
 from model.model import FontogenModule, FontogenDataModule
 from sampler import SamplingCallback
 
 
-# Install the magic combination of nightly deps.
+# from sampler import SamplingCallback
+
+
+# Install the magic combination of nightly deps for increased compatibility and maximum performance.
 #
 # pip install -U --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/Triton-Nightly/pypi/simple/ triton-nightly==2.1.0.dev20230801015042 --no-deps
 #
 
 def main():
+    parser = argparse.ArgumentParser(description="train")
+    parser.add_argument("--dataset_path", type=str)
+    args = parser.parse_args()
+
     config = fontogen_config()
 
     device = "cuda" if torch.cuda.is_available() else "mps" if torch.has_mps else "cpu"
     precision = "bf16-mixed" if device == "cuda" else 32
-    use_wandb = True
+    use_wandb = False
     checkpoint_path = None
-    dataset_path = 'data/combined_glyphs_4_3.ds'
+    dataset_path = args.dataset_path
 
     torch.set_float32_matmul_precision("medium")
 

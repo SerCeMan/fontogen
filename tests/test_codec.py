@@ -11,7 +11,7 @@ class TestFontCodec(unittest.TestCase):
         glyphs = string.ascii_uppercase + string.digits + '.,;:!?\'"/&+@()-_'
         scaler = FontScaler(glyph_res)
         fonts = Fonts(glyphs, glyph_res)
-        font = fonts.load_font('./aAblasco.ttf')
+        font = fonts.load_font('./OpenSans-Medium.ttf')
         font = scaler.normalize_font(font)
 
         codec = FontCodec(glyphs, glyph_res, 200 * len(glyphs), 200)
@@ -26,7 +26,7 @@ class TestFontCodec(unittest.TestCase):
         glyphs = string.ascii_uppercase + string.digits + '.,;:!?\'"/&+@()-_'
         scaler = FontScaler(glyph_res)
         fonts = Fonts(glyphs, glyph_res)
-        font = fonts.load_font('./AGaramond-BoldItalic.otf')
+        font = fonts.load_font('./Roboto-Medium.ttf')
         font = scaler.normalize_font(font)
 
         codec = FontCodec(glyphs, glyph_res, 200 * len(glyphs), 200)

@@ -7,8 +7,8 @@ from fonts import Fonts, FontScaler, FontPlotter
 class TestFontLoader(unittest.TestCase):
     def test_font_saving_ttf(self):
         fonts = [
-            './AGaramond-BoldItalic.otf',
-            './aAblasco.ttf',
+            './Roboto-Medium.ttf',
+            './OpenSans-Medium.ttf',
             # TODO: learn how to deal with Dune Rise and the Nones
             # './Dune_Rise.ttf',
         ]
@@ -34,7 +34,7 @@ class TestFontLoader(unittest.TestCase):
     def test_font_plotting_ttf(self):
         glyph_res = 160
         fonts = Fonts('ABCD', glyph_res)
-        font = fonts.load_font('./aAblasco.ttf')
+        font = fonts.load_font('./OpenSans-Medium.ttf')
 
         scaler = FontScaler(glyph_res)
         scaled_font = scaler.normalize_font(font)
@@ -46,7 +46,7 @@ class TestFontLoader(unittest.TestCase):
     def test_font_plotting_otf(self):
         glyph_res = 160
         fonts = Fonts('.,;:!?\'"/&+@()-_', glyph_res)
-        font = fonts.load_font('./AGaramond-BoldItalic.otf')
+        font = fonts.load_font('./Roboto-Medium.ttf')
 
         scaler = FontScaler(glyph_res)
         scaled_font = scaler.normalize_font(font)
