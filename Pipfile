@@ -14,6 +14,7 @@ lightning = "2.0.6"
 wandb = "0.15.8"
 fs = "2.4.16"
 gradio = "3.42.0"
+uharfbuzz = "0.37.3"
 
 [dev-packages]
 

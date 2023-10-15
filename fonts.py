@@ -1,7 +1,7 @@
 import string
 import sys
 from dataclasses import dataclass
-from typing import List, Tuple, Dict
+from typing import List, Optional, Tuple, Dict
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -12,7 +12,10 @@ from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont
 from fontTools.ufoLib.glifLib import Glyph
 
+import uharfbuzz as hb
+
 GlyphPaths = List[Tuple[str, Tuple[Tuple[int, int]]]]
+NormalizedCoords = Dict[str,float]
 
 
 @dataclass
@@ -25,33 +28,42 @@ class Fonts:
         self.glyphs = glyps
         self.glyph_res = glyph_res
         self.scaler = FontScaler(glyph_res)
+        self.draw_funcs = hb.DrawFuncs()
+        def move_to(x,y,c):
+            c.append(("moveTo", ((x,y),)))
+        def line_to(x,y,c):
+            c.append(("lineTo", ((x,y),)))
+        def cubic_to(c1x,c1y,c2x,c2y,x,y,c):
+            c.append(("curveTo", ((c1x,c1y),(c2x,c2y),(x,y))))
+        def quadratic_to(c1x,c1y,x,y,c):
+            c.append(("qCurveTo", ((c1x,c1y),(x,y))))
+        def close_path(c):
+            c.append(("closePath", ()))
 
-    def extract_path_data_using_pen(self, font: TTFont, char: str) -> GlyphPaths | None:
+        self.draw_funcs.set_move_to_func(move_to)
+        self.draw_funcs.set_line_to_func(line_to)
+        self.draw_funcs.set_cubic_to_func(cubic_to)
+        self.draw_funcs.set_quadratic_to_func(quadratic_to)
+        self.draw_funcs.set_close_path_func(close_path)
+
+    def extract_path_data_using_pen(self, font: hb.Font, char: str) -> GlyphPaths | None:
         """Extract glyph path data using the pen API."""
-        cmap = font.getBestCmap()
-        glyph_set = font.getGlyphSet()
-        char_idx = ord(char)
-        if char_idx not in cmap:
+        gid = font.get_nominal_glyph(ord(char))
+        if gid is None:
             return None
-        glyph = glyph_set[cmap[char_idx]]
+        container = []
+        font.draw_glyph(gid, self.draw_funcs, container)
+        return container
 
-        pen = DecomposingRecordingPen(glyph_set)
-        glyph.draw(pen)
-
-        # sometimes the glyphs include useless moveTo commands right before a closePath
-        # running through a drawing loop optimises them away.
-        ttf_pen = TTGlyphPen()
-        pen.replay(ttf_pen)
-        optimised_pen = RecordingPen()
-        ttf_pen.glyph().draw(optimised_pen, font.getGlyphSet())
-
-        return optimised_pen.value
-
-    def load_font(self, path: str, allow_missing: bool = False) -> Font:
-        ttfont = TTFont(path)
+    def load_font(self, path: str, allow_missing: bool = False, coordinates: Optional[NormalizedCoords]=None) -> Font:
+        blob = hb.Blob.from_file_path(path)
+        face = hb.Face(blob)
+        font = hb.Font(face)
+        if coordinates is not None:
+            font.set_var_coords_normalized(coordinates)
         glyph_paths = {}
         for glyph in self.glyphs:
-            font_data = self.extract_path_data_using_pen(ttfont, glyph)
+            font_data = self.extract_path_data_using_pen(font, glyph)
             if font_data is None:
                 if glyph in string.ascii_uppercase or not allow_missing:
                     # always fail if the glyph is an letter to skip wild fonts
