@@ -11,14 +11,6 @@ from model.model import FontogenModule, FontogenDataModule
 from sampler import SamplingCallback
 
 
-# from sampler import SamplingCallback
-
-
-# Install the magic combination of nightly deps for increased compatibility and maximum performance.
-#
-# pip install -U --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/Triton-Nightly/pypi/simple/ triton-nightly==2.1.0.dev20230801015042 --no-deps
-#
-
 def main():
     parser = argparse.ArgumentParser(description="train")
     parser.add_argument("--dataset_path", type=str)

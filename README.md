@@ -10,8 +10,6 @@ my [blog article](https://serce.me/posts/02-10-2023-hey-computer-make-me-a-font)
 ```bash
 pipenv install
 pipenv shell
-# Nightly Triton is required
-pip install -U --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/Triton-Nightly/pypi/simple/ triton-nightly==2.1.0.dev20230801015042 --no-deps
 ```
 
 ### Training
